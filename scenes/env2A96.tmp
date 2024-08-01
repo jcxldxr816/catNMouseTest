@@ -1,0 +1,72 @@
+[gd_scene load_steps=8 format=3 uid="uid://dmd2ag684ejp6"]
+
+[ext_resource type="PackedScene" uid="uid://pr6cmipxirsy" path="res://scenes/player.tscn" id="1_iud5i"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_0jprh"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_2m0xh"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0yuyd"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7f1wc"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_vj3kn"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qy7yc"]
+albedo_color = Color(0.687943, 0.477077, 0.711988, 1)
+
+[node name="Environment" type="Node"]
+
+[node name="Control" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Control"]
+modulate = Color(0.0941176, 1, 0.227451, 1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -48.0
+offset_top = 60.0
+offset_right = 43.0
+offset_bottom = 83.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Hello World"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.699469, 0.475616, 0.533416, 0.0669873, -0.699469, 0.711516, 0.711516, 0.533416, 0.457397, 0, 18.8084, 0)
+shadow_enabled = true
+
+[node name="Player" parent="." instance=ExtResource("1_iud5i")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11, 0)
+
+[node name="Ground" type="StaticBody3D" parent="."]
+transform = Transform3D(100, 0, 0, 0, 2, 0, 0, 0, 100, 0, -1, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+shape = SubResource("BoxShape3D_0jprh")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+mesh = SubResource("BoxMesh_2m0xh")
+surface_material_override/0 = SubResource("StandardMaterial3D_0yuyd")
+
+[node name="Box" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 6)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Box"]
+shape = SubResource("BoxShape3D_7f1wc")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Box"]
+mesh = SubResource("BoxMesh_vj3kn")
+surface_material_override/0 = SubResource("StandardMaterial3D_qy7yc")

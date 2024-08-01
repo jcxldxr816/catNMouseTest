@@ -1,0 +1,78 @@
+[gd_scene load_steps=8 format=3 uid="uid://pr6cmipxirsy"]
+
+[ext_resource type="Script" path="res://scripts/player.gd" id="1_78pam"]
+[ext_resource type="PackedScene" uid="uid://bn08uby61ptha" path="res://scenes/catModel.tscn" id="2_ts8x8"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_axy66"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_sbddt"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_g21kt"]
+radius = 0.25
+
+[sub_resource type="SphereMesh" id="SphereMesh_gbnrw"]
+radius = 0.25
+height = 0.5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rayls"]
+albedo_color = Color(0.404511, 0.404511, 0.404511, 1)
+
+[node name="Node3D" type="CharacterBody3D"]
+script = ExtResource("1_78pam")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Control"]
+modulate = Color(0.0941176, 1, 0.227451, 1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -48.0
+offset_top = 60.0
+offset_right = 43.0
+offset_bottom = 83.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Hello World"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Pivot" type="Marker3D" parent="."]
+
+[node name="SpringArm3D" type="SpringArm3D" parent="Pivot"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 1.5, 0)
+spring_length = 2.0
+
+[node name="Camera3D" type="Camera3D" parent="Pivot/SpringArm3D"]
+transform = Transform3D(1, -1.13133e-08, -1.48943e-09, 1.13133e-08, 0.965926, 0.258819, -1.48943e-09, -0.258819, 0.965926, 0, 0, 2)
+fov = 90.0
+
+[node name="catCollision" type="CollisionShape3D" parent="."]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
+shape = SubResource("CapsuleShape3D_axy66")
+
+[node name="catModel" parent="." instance=ExtResource("2_ts8x8")]
+transform = Transform3D(-6.55671e-08, 0, 1.5, 0, 1.5, 0, -1.5, 0, -6.55671e-08, 0, -0.5, 0)
+
+[node name="catMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
+visible = false
+mesh = SubResource("CapsuleMesh_sbddt")
+
+[node name="mouseCollision" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
+shape = SubResource("SphereShape3D_g21kt")
+
+[node name="mouseMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
+mesh = SubResource("SphereMesh_gbnrw")
+surface_material_override/0 = SubResource("StandardMaterial3D_rayls")

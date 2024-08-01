@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://bn08uby61ptha"]
+
+[ext_resource type="PackedScene" uid="uid://c6hcoyjaay2a8" path="res://assets/uploads_files_4555476_Cat.glb" id="1_g2ab2"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ahtui"]
+albedo_color = Color(0.823625, 0.611204, 0.45787, 1)
+
+[node name="uploads_files_4555476_Cat" instance=ExtResource("1_g2ab2")]
+
+[node name="Skeleton3D" parent="Armature" index="0"]
+bones/3/rotation = Quaternion(-0.0329472, -0.00674069, 0.200296, 0.979158)
+bones/4/rotation = Quaternion(-0.154727, 4.18259e-09, 1.39997e-06, 0.987957)
+bones/7/rotation = Quaternion(-0.0329472, 0.00674067, -0.200296, 0.979158)
+bones/10/rotation = Quaternion(0.160877, 0.0617894, 0.260516, 0.949964)
+bones/13/rotation = Quaternion(0.160877, -0.0617894, -0.260516, 0.949964)
+bones/14/rotation = Quaternion(-0.554625, 0.052714, -0.00356104, 0.830421)
+
+[node name="Gato" parent="Armature/Skeleton3D" index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_ahtui")
+
+[node name="AnimationPlayer" parent="." index="1"]
+speed_scale = 1.75
