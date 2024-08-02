@@ -5,6 +5,10 @@ extends CharacterBody3D
 @export var  DEFAULT_GRAVITY = 20
 @export var  DEFAULT_SENSITIVITY = .7
 
+@onready var storedSpeed = DEFAULT_SPEED
+@onready var storedJumpVel = DEFAULT_JUMP_VELOCITY
+@onready var storedGravity = DEFAULT_GRAVITY
+@onready var storedSens = DEFAULT_SENSITIVITY
 
 func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
