@@ -1,8 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://dmd2ag684ejp6"]
+[gd_scene load_steps=14 format=3 uid="uid://dmd2ag684ejp6"]
 
 [ext_resource type="Script" path="res://scripts/environment.gd" id="1_8ewvv"]
-[ext_resource type="PackedScene" uid="uid://pr6cmipxirsy" path="res://scenes/player.tscn" id="1_iud5i"]
 [ext_resource type="PackedScene" uid="uid://c7lcg0ondtpjm" path="res://scenes/cheese.tscn" id="2_p37fu"]
+[ext_resource type="PackedScene" uid="uid://b22wcsut0vmkq" path="res://scripts/mouse.tscn" id="4_5rfca"]
+[ext_resource type="PackedScene" uid="uid://dh8v072vlua6y" path="res://scenes/cat.tscn" id="4_vw5gx"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_0jprh"]
 
@@ -17,6 +18,17 @@
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qy7yc"]
 albedo_color = Color(0.687943, 0.477077, 0.711988, 1)
 
+[sub_resource type="CylinderMesh" id="CylinderMesh_xn65f"]
+top_radius = 2.0
+bottom_radius = 2.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cwjnt"]
+transparency = 1
+albedo_color = Color(0.670588, 0.0431373, 0, 0.411765)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_j5qme"]
+radius = 2.0
+
 [node name="Environment" type="Node"]
 script = ExtResource("1_8ewvv")
 
@@ -25,8 +37,31 @@ transform = Transform3D(-0.699469, 0.475616, 0.533416, 0.0669873, -0.699469, 0.7
 light_color = Color(0.9, 0.8658, 0.558, 1)
 shadow_enabled = true
 
-[node name="Player" parent="." instance=ExtResource("1_iud5i")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11, 0)
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Control"]
+modulate = Color(0.309804, 1, 0.176471, 1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -45.5
+offset_top = 140.0
+offset_right = 45.5
+offset_bottom = 163.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Hello World"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Ground" type="StaticBody3D" parent="."]
 transform = Transform3D(100, 0, 0, 0, 2, 0, 0, 0, 100, 0, -1, 0)
@@ -93,3 +128,24 @@ surface_material_override/0 = SubResource("StandardMaterial3D_qy7yc")
 
 [node name="cheese" parent="." instance=ExtResource("2_p37fu")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.62159, 22.7393)
+
+[node name="cat" parent="." instance=ExtResource("4_vw5gx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, -2)
+
+[node name="mouse" parent="." instance=ExtResource("4_5rfca")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0, 0)
+
+[node name="catEntryArea" type="Area3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="catEntryArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CylinderMesh_xn65f")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_cwjnt")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="catEntryArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CylinderShape3D_j5qme")
+
+[connection signal="body_entered" from="catEntryArea" to="." method="_on_cat_entry_area_body_entered"]
+[connection signal="body_exited" from="catEntryArea" to="." method="_on_cat_entry_area_body_exited"]

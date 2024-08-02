@@ -12,6 +12,8 @@ func _process(delta):
 
 
 func _on_area_3d_body_entered(body):
-	if self.visible == true:
-		body._increaseScore()
+	#if self.visible == true:
+		#var myScript = environment.gd.new
+		#$Environment._scoreIncrease()
+		#body._increaseScore()
 	self.visible = false

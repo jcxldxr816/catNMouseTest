@@ -1,0 +1,36 @@
+[gd_scene load_steps=5 format=3 uid="uid://b22wcsut0vmkq"]
+
+[ext_resource type="Script" path="res://scripts/mouse.gd" id="1_jjrv7"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_j8i70"]
+radius = 0.25
+height = 0.5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_layu3"]
+albedo_color = Color(0.408329, 0.408329, 0.408329, 1)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_xnv2n"]
+radius = 0.25
+
+[node name="mouse" type="CharacterBody3D"]
+script = ExtResource("1_jjrv7")
+
+[node name="mouseMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+mesh = SubResource("SphereMesh_j8i70")
+surface_material_override/0 = SubResource("StandardMaterial3D_layu3")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+shape = SubResource("SphereShape3D_xnv2n")
+
+[node name="Pivot" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, -1.06581e-14, 0, 1, 0, 1.06581e-14, 0, 1, 0, 0, 0)
+
+[node name="SpringArm3D" type="SpringArm3D" parent="Pivot"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 1, 0)
+spring_length = 2.0
+
+[node name="Camera3D" type="Camera3D" parent="Pivot/SpringArm3D"]
+transform = Transform3D(1, 0, 0, 0, 0.996195, 0.0871557, 0, -0.0871557, 0.996195, 0, 0, 2)
+fov = 90.0
