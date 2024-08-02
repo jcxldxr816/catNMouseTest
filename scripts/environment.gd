@@ -78,7 +78,6 @@ func _process(delta):
 		else:
 			grounded = false
 		mouse.global_transform = cat.global_transform
-		mouse.position.y += 2
 
 #func _scoreIncrease():
 	#score += 1
