@@ -87,10 +87,10 @@ func _process(delta):
 func _on_cat_entry_area_body_entered(body):
 	if body.get_name() == "mouse":
 		catEntryEligible = true
-		print("cat entry available")
+		#print("cat entry available")
 
 
 func _on_cat_entry_area_body_exited(body):
 	if body.get_name() == "mouse":
 		catEntryEligible = false
-		print("cat entry unavailable")
+		#print("cat entry unavailable")

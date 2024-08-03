@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://b22wcsut0vmkq"]
+[gd_scene load_steps=7 format=3 uid="uid://b22wcsut0vmkq"]
 
 [ext_resource type="Script" path="res://scripts/mouse.gd" id="1_jjrv7"]
 
@@ -11,6 +11,11 @@ albedo_color = Color(0.408329, 0.408329, 0.408329, 1)
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_xnv2n"]
 radius = 0.25
+
+[sub_resource type="SeparationRayShape3D" id="SeparationRayShape3D_ytoo6"]
+
+[sub_resource type="SeparationRayShape3D" id="SeparationRayShape3D_qhdpv"]
+length = 0.25
 
 [node name="mouse" type="CharacterBody3D"]
 script = ExtResource("1_jjrv7")
@@ -34,3 +39,17 @@ spring_length = 2.0
 [node name="Camera3D" type="Camera3D" parent="Pivot/SpringArm3D"]
 transform = Transform3D(1, 0, 0, 0, 0.996195, 0.0871557, 0, -0.0871557, 0.996195, 0, 0, 2)
 fov = 90.0
+
+[node name="facingCheck" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="facingCheck"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
+shape = SubResource("SeparationRayShape3D_ytoo6")
+
+[node name="StepRay" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, -4.37114e-08, 4.37114e-08, 4.37114e-08, -4.37114e-08, -1, 4.37114e-08, 1, -4.37114e-08, 0.25, 0.25, 0)
+shape = SubResource("SeparationRayShape3D_qhdpv")
+
+[connection signal="body_entered" from="facingCheck" to="." method="_on_facing_check_body_entered"]
+[connection signal="body_exited" from="facingCheck" to="." method="_on_facing_check_body_exited"]

@@ -21,6 +21,7 @@ func _input(event):
 		$Pivot.rotation.x = clamp($Pivot.rotation.x, deg_to_rad(-90), deg_to_rad(45))
 
 func _physics_process(delta):
+	_climbing(6)
 	
 	# Add the DEFAULT_GRAVITY.
 	if not is_on_floor():
@@ -63,3 +64,36 @@ func _physics_process(delta):
 		velocity.z = move_toward(velocity.z, startingZVel/2, DEFAULT_SPEED*.5)
 
 	move_and_slide()
+
+var facingSomething = false
+func _climbing(heightLimit):
+	if self.get_last_slide_collision():
+		var collider = self.get_last_slide_collision().get_collider()
+		var climbable = false
+		#checking for climbable layer staticBodies
+		if collider.get_class() == "StaticBody3D":
+			if collider.get_collision_layer_value(2):
+				#print(collider)
+				climbable = true
+				var heightDiff = findCubePlayerHeightDiff(collider)
+				#print(heightDiff)
+				if heightDiff > heightLimit:
+					#print("cant climb")
+					return
+		#finding face closest to player
+		if climbable and is_on_wall() and facingSomething and Input.is_action_pressed("forward"):
+			#print("climbing")
+			var wallVector = get_wall_normal()
+			var climbDirection = transform.basis * Vector3(0,1,0)
+			velocity.y = climbDirection.y * DEFAULT_SPEED * .5
+			
+func findCubePlayerHeightDiff(obj):
+	return obj.position.y + obj.scale.y - position.y
+
+
+func _on_facing_check_body_entered(body):
+	facingSomething = true
+
+
+func _on_facing_check_body_exited(body):
+	facingSomething = false

@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://dh8v072vlua6y"]
+[gd_scene load_steps=8 format=3 uid="uid://dh8v072vlua6y"]
 
 [ext_resource type="Script" path="res://scripts/cat.gd" id="1_fwkxy"]
 [ext_resource type="PackedScene" uid="uid://bn08uby61ptha" path="res://scenes/catModel.tscn" id="2_pm7ld"]
@@ -11,6 +11,12 @@ height = 0.5
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2yhyu"]
 transparency = 1
 albedo_color = Color(0, 1, 0, 0.392157)
+
+[sub_resource type="SeparationRayShape3D" id="SeparationRayShape3D_e1jhj"]
+length = 1.5
+
+[sub_resource type="SeparationRayShape3D" id="SeparationRayShape3D_dmu74"]
+length = 0.5
 
 [node name="Cat" type="CharacterBody3D"]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
@@ -38,3 +44,16 @@ fov = 90.0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.18557e-07, 0.25, 5)
 mesh = SubResource("CylinderMesh_ub25x")
 surface_material_override/0 = SubResource("StandardMaterial3D_2yhyu")
+
+[node name="facingCheck" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="facingCheck"]
+shape = SubResource("SeparationRayShape3D_e1jhj")
+
+[node name="StepRay" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, -4.37114e-08, 4.37114e-08, 4.37114e-08, -4.37114e-08, -1, 4.37114e-08, 1, -4.37114e-08, 0, 0.5, 1)
+shape = SubResource("SeparationRayShape3D_dmu74")
+
+[connection signal="body_entered" from="facingCheck" to="." method="_on_facing_check_body_entered"]
+[connection signal="body_exited" from="facingCheck" to="." method="_on_facing_check_body_exited"]
