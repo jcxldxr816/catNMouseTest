@@ -1,9 +1,11 @@
-[gd_scene load_steps=18 format=3 uid="uid://dmd2ag684ejp6"]
+[gd_scene load_steps=20 format=3 uid="uid://dmd2ag684ejp6"]
 
 [ext_resource type="Script" path="res://scripts/environment.gd" id="1_8ewvv"]
 [ext_resource type="PackedScene" uid="uid://c7lcg0ondtpjm" path="res://scenes/cheese.tscn" id="2_p37fu"]
 [ext_resource type="PackedScene" uid="uid://b22wcsut0vmkq" path="res://scenes/mouse.tscn" id="4_5rfca"]
 [ext_resource type="PackedScene" uid="uid://dh8v072vlua6y" path="res://scenes/cat.tscn" id="4_vw5gx"]
+[ext_resource type="PackedScene" uid="uid://bm4fpsa4xgpd5" path="res://scenes/spikes.tscn" id="5_d4qnm"]
+[ext_resource type="PackedScene" uid="uid://dny63byg1feub" path="res://scenes/health.tscn" id="6_cypi6"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_0jprh"]
 
@@ -55,7 +57,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="Control"]
+[node name="scoreLabel" type="Label" parent="Control"]
 modulate = Color(0.309804, 1, 0.176471, 1)
 layout_mode = 1
 anchors_preset = 8
@@ -70,6 +72,23 @@ offset_bottom = 163.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "Hello World"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="lifeLabel" type="Label" parent="Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = 116.0
+offset_right = 20.0
+offset_bottom = 139.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Life"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -148,7 +167,7 @@ mesh = SubResource("BoxMesh_vj3kn")
 surface_material_override/0 = SubResource("StandardMaterial3D_qy7yc")
 
 [node name="cheese" parent="." instance=ExtResource("2_p37fu")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.62159, 22.7393)
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 1, 0.5, -8.261)
 
 [node name="cat" parent="." instance=ExtResource("4_vw5gx")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, -2)
@@ -196,5 +215,28 @@ shape = SubResource("ConvexPolygonShape3D_ddy83")
 transform = Transform3D(1, 0, 0, 0, -0.566636, 0.823968, 0, -0.823968, -0.566636, 0, 0, 0)
 mesh = SubResource("QuadMesh_8geqe")
 
+[node name="spikes" parent="." instance=ExtResource("5_d4qnm")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikeArea" parent="spikes" index="2"]
+collision_layer = 8
+collision_mask = 16
+
+[node name="health" parent="." instance=ExtResource("6_cypi6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1, 0)
+
+[node name="health2" parent="." instance=ExtResource("6_cypi6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1, 4)
+
+[connection signal="body_entered" from="cheese/cheeseArea3D" to="." method="_on_cheese_area_3d_body_entered"]
 [connection signal="body_entered" from="catEntryArea" to="." method="_on_cat_entry_area_body_entered"]
 [connection signal="body_exited" from="catEntryArea" to="." method="_on_cat_entry_area_body_exited"]
+[connection signal="body_entered" from="spikes/spikeArea" to="." method="_on_spike_area_body_entered"]
+[connection signal="body_entered" from="health/healthArea3D" to="." method="_on_health_area_3d_body_entered"]
+
+[editable path="cheese"]
+[editable path="spikes"]
+[editable path="health"]
+[editable path="health2"]

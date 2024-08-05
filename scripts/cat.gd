@@ -40,10 +40,6 @@ func _physics_process(delta):
 	
 	if Input.is_action_pressed("shift") and Input.is_action_just_pressed("jump") and DEFAULT_GRAVITY != 0 and is_on_floor():
 		self.global_transform = $jumpLocation.global_transform
-		
-		#self.position.move_toward($jumpLocation.global_position, 3)
-		#self.position.y -= .25
-
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.

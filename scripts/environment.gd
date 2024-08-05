@@ -1,14 +1,18 @@
 extends Node
 
-@onready var cheeseArea = $cheese/Area3D
+@onready var cheeseArea = $cheese/cheeseArea3D
 @onready var cat = $cat
 @onready var mouse = $mouse
 @onready var catCam = $cat/Pivot/SpringArm3D/Camera3D
 @onready var mouseCam = $mouse/Pivot/SpringArm3D/Camera3D
 
+@onready var life = 4
+
 @onready var mouseActive = true
 @onready var grounded = false
 @onready var score = 0
+#@onready var cheeseEnteredAlr = false
+
 @onready var catEntryEligible = false
 @onready var lastCatYPos = 0
 
@@ -26,6 +30,9 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	$Control/lifeLabel.text = str(life)
+	$Control/scoreLabel.text = str(score)
+	
 	if Input.is_action_just_pressed("quit"):
 		get_tree().quit()
 	
@@ -78,10 +85,6 @@ func _process(delta):
 		else:
 			grounded = false
 		mouse.global_transform = cat.global_transform
-
-#func _scoreIncrease():
-	#score += 1
-	#$Control/Label.text = str(score)
 	
 
 func _on_cat_entry_area_body_entered(body):
@@ -94,3 +97,29 @@ func _on_cat_entry_area_body_exited(body):
 	if body.get_name() == "mouse":
 		catEntryEligible = false
 		#print("cat entry unavailable")
+
+
+func _on_cheese_area_3d_body_entered(body):
+	#if not cheeseEnteredAlr:
+		score += 1
+		#cheeseEnteredAlr = true
+
+
+
+
+func _on_spike_area_body_entered(body):
+	#print("touching spikes")
+	#if body.get_class() == "CharacterBody3D":
+	if body.get_collision_layer_value(5):
+		print("character touched spikes")
+		life -= 1
+		if life <= 0:
+			print("game over")
+			get_tree().quit()
+
+	
+
+func _healthFunction():
+	print("health picked up")
+	if life < 4:
+		life += 1

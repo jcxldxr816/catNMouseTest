@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://bm4fpsa4xgpd5"]
+
+[ext_resource type="PackedScene" uid="uid://d02rwiflur7pt" path="res://assets/spikes.glb" id="1_gwjvi"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_kyjqs"]
+size = Vector3(6, 2, 6)
+
+[node name="spikes" type="StaticBody3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, 0, 1, 0)
+shape = SubResource("BoxShape3D_kyjqs")
+
+[node name="spikes" parent="." instance=ExtResource("1_gwjvi")]
+
+[node name="spikeArea" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="spikeArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("BoxShape3D_kyjqs")

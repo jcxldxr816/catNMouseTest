@@ -13,7 +13,7 @@ func _input(event):
 		rotate_y(deg_to_rad((-event.relative.x * DEFAULT_SENSITIVITY)))
 
 func _physics_process(delta):
-	_climbing(2)
+	_climbing(3)
 	# Add the DEFAULT_GRAVITY.
 	if not is_on_floor():
 		velocity.y -= DEFAULT_GRAVITY * delta
