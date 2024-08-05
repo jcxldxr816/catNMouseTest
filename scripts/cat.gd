@@ -1,7 +1,7 @@
 extends CharacterBody3D
 
 @export var DEFAULT_SPEED = 15
-@export var  DEFAULT_JUMP_VELOCITY = 15
+@export var  DEFAULT_JUMP_VELOCITY = 10
 @export var  DEFAULT_GRAVITY = 20
 @export var  DEFAULT_SENSITIVITY = .7
 
@@ -22,7 +22,7 @@ func _input(event):
 		$Pivot.rotation.z = clamp($Pivot.rotation.z, deg_to_rad(-45), deg_to_rad(45))
 
 func _physics_process(delta):
-	_climbing(6)
+	_climbing(8)
 	
 	# Add the DEFAULT_GRAVITY.
 	if not is_on_floor():

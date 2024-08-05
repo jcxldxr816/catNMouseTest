@@ -1,0 +1,965 @@
+[gd_scene load_steps=20 format=3 uid="uid://bk6t3mq8s75do"]
+
+[ext_resource type="Script" path="res://scripts/environment.gd" id="1_60dld"]
+[ext_resource type="PackedScene" uid="uid://c7lcg0ondtpjm" path="res://scenes/cheese.tscn" id="2_errc7"]
+[ext_resource type="PackedScene" uid="uid://dh8v072vlua6y" path="res://scenes/cat.tscn" id="3_qbybx"]
+[ext_resource type="PackedScene" uid="uid://b22wcsut0vmkq" path="res://scenes/mouse.tscn" id="4_aagkp"]
+[ext_resource type="PackedScene" uid="uid://bm4fpsa4xgpd5" path="res://scenes/spikes.tscn" id="5_34i06"]
+[ext_resource type="PackedScene" uid="uid://dny63byg1feub" path="res://scenes/health.tscn" id="6_v0pi1"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_0jprh"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_2m0xh"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0yuyd"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_xn65f"]
+top_radius = 2.0
+bottom_radius = 2.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cwjnt"]
+transparency = 1
+albedo_color = Color(0.670588, 0.0431373, 0, 0.411765)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_j5qme"]
+radius = 2.0
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_m1dqx"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_1bgp6"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7dfo3"]
+albedo_color = Color(1, 0.460167, 0.21, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_pl4nq"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_nkqb7"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_m8bb8"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_uor0h"]
+
+[node name="Environment" type="Node"]
+script = ExtResource("1_60dld")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.982848, -0.0765449, -0.167781, 0.0669873, -0.699469, 0.711516, -0.171821, -0.710552, -0.682344, 0, 18.8084, 0)
+light_color = Color(0.9, 0.8658, 0.558, 1)
+shadow_enabled = true
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="Control"]
+modulate = Color(0, 0.831373, 0, 1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -568.0
+offset_top = -316.0
+offset_right = -197.0
+offset_bottom = -59.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "WASD to move
+Mouse to look
+Space to Jump
+Tab to switch between cat and mouse
+
+Shift+Jump (as cat) to \"jump\" to specific location
+Arrow Up/Down to shift \"jump\" location
+
+You can climb some walls
+Avoid the spikes and get the cheese!!!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="scoreLabel" type="Label" parent="Control"]
+modulate = Color(0.309804, 1, 0.176471, 1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -45.5
+offset_top = 140.0
+offset_right = 45.5
+offset_bottom = 163.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Hello World"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="lifeLabel" type="Label" parent="Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = 116.0
+offset_right = 20.0
+offset_bottom = 139.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Life"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="fpsCount" type="Label" parent="Control"]
+modulate = Color(0.793142, 0.130379, 0.562468, 1)
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 23.0
+grow_horizontal = 0
+text = "fps"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Ground" type="StaticBody3D" parent="."]
+transform = Transform3D(100, 0, 0, 0, 2, 0, 0, 0, 100, 0, -1, 0)
+collision_mask = 16
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+shape = SubResource("BoxShape3D_0jprh")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+mesh = SubResource("BoxMesh_2m0xh")
+surface_material_override/0 = SubResource("StandardMaterial3D_0yuyd")
+
+[node name="cheese" parent="." instance=ExtResource("2_errc7")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 1, 0.5, -43.261)
+
+[node name="Plane" parent="cheese" index="1"]
+transform = Transform3D(-3.61999e-06, 1, 4.46638e-06, -1, -3.61999e-06, 0, 1.61683e-11, -4.46638e-06, 1, 0, 0.5, 0)
+
+[node name="cat" parent="." instance=ExtResource("3_qbybx")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 28)
+collision_layer = 16
+collision_mask = 15
+
+[node name="mouse" parent="." instance=ExtResource("4_aagkp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0717702, 0, 43.6986)
+collision_layer = 16
+collision_mask = 15
+
+[node name="catEntryArea" type="Area3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 28)
+collision_mask = 16
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="catEntryArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CylinderMesh_xn65f")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_cwjnt")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="catEntryArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CylinderShape3D_j5qme")
+
+[node name="Level" type="Node3D" parent="."]
+
+[node name="Climbable" type="Node3D" parent="Level"]
+
+[node name="Box" type="StaticBody3D" parent="Level/Climbable"]
+transform = Transform3D(20, 0, 0, 0, 1.5, 0, 0, 0, 5, 0, 0.75, 36)
+collision_layer = 3
+collision_mask = 16
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Climbable/Box"]
+shape = SubResource("BoxShape3D_m1dqx")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level/Climbable/Box"]
+mesh = SubResource("BoxMesh_1bgp6")
+surface_material_override/0 = SubResource("StandardMaterial3D_7dfo3")
+
+[node name="Box2" type="StaticBody3D" parent="Level/Climbable"]
+transform = Transform3D(20, 0, 0, 0, 6, 0, 0, 0, 5, 0, 3, 21)
+collision_layer = 3
+collision_mask = 16
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Climbable/Box2"]
+shape = SubResource("BoxShape3D_m1dqx")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level/Climbable/Box2"]
+mesh = SubResource("BoxMesh_1bgp6")
+surface_material_override/0 = SubResource("StandardMaterial3D_7dfo3")
+
+[node name="Box3" type="StaticBody3D" parent="Level/Climbable"]
+transform = Transform3D(20, 0, 0, 0, 6, 0, 0, 0, 5, 0, 3, 5)
+collision_layer = 3
+collision_mask = 16
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Climbable/Box3"]
+shape = SubResource("BoxShape3D_m1dqx")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level/Climbable/Box3"]
+mesh = SubResource("BoxMesh_1bgp6")
+surface_material_override/0 = SubResource("StandardMaterial3D_7dfo3")
+
+[node name="Box4" type="StaticBody3D" parent="Level/Climbable"]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 4.5, 13)
+collision_layer = 3
+collision_mask = 16
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Climbable/Box4"]
+shape = SubResource("BoxShape3D_m1dqx")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level/Climbable/Box4"]
+mesh = SubResource("BoxMesh_1bgp6")
+surface_material_override/0 = SubResource("StandardMaterial3D_7dfo3")
+
+[node name="NotClimbable" type="Node3D" parent="Level"]
+
+[node name="TallWall" type="StaticBody3D" parent="Level/NotClimbable"]
+transform = Transform3D(1, 0, 0, 0, 12, 0, 0, 0, 100, -10, 6, 0)
+collision_mask = 16
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level/NotClimbable/TallWall"]
+mesh = SubResource("BoxMesh_pl4nq")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/NotClimbable/TallWall"]
+shape = SubResource("BoxShape3D_nkqb7")
+
+[node name="TallWall2" type="StaticBody3D" parent="Level/NotClimbable"]
+transform = Transform3D(1, 0, 0, 0, 12, 0, 0, 0, 100, 10, 6, 0)
+collision_mask = 16
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level/NotClimbable/TallWall2"]
+mesh = SubResource("BoxMesh_pl4nq")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/NotClimbable/TallWall2"]
+shape = SubResource("BoxShape3D_nkqb7")
+
+[node name="TallWall3" type="StaticBody3D" parent="Level/NotClimbable"]
+transform = Transform3D(20, 0, 0, 0, 12, 0, 0, 0, 1, 0, 6, 50)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level/NotClimbable/TallWall3"]
+mesh = SubResource("BoxMesh_m8bb8")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/NotClimbable/TallWall3"]
+shape = SubResource("BoxShape3D_uor0h")
+
+[node name="TallWall4" type="StaticBody3D" parent="Level/NotClimbable"]
+transform = Transform3D(20, 0, 0, 0, 12, 0, 0, 0, 1, 0, 6, -50)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level/NotClimbable/TallWall4"]
+mesh = SubResource("BoxMesh_m8bb8")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/NotClimbable/TallWall4"]
+shape = SubResource("BoxShape3D_uor0h")
+
+[node name="SpikeRow" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -6)
+
+[node name="spikes" parent="SpikeRow" instance=ExtResource("5_34i06")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikeArea" parent="SpikeRow/spikes" index="2"]
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikes2" parent="SpikeRow" instance=ExtResource("5_34i06")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 1.5, 0, 0)
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikeArea" parent="SpikeRow/spikes2" index="2"]
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikes3" parent="SpikeRow" instance=ExtResource("5_34i06")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, -1.5, 0, 0)
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikeArea" parent="SpikeRow/spikes3" index="2"]
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikes4" parent="SpikeRow" instance=ExtResource("5_34i06")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 4.5, 0, 0)
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikeArea" parent="SpikeRow/spikes4" index="2"]
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikes5" parent="SpikeRow" instance=ExtResource("5_34i06")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 6, 0, 0)
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikeArea" parent="SpikeRow/spikes5" index="2"]
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikes6" parent="SpikeRow" instance=ExtResource("5_34i06")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 3, 0, 0)
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikeArea" parent="SpikeRow/spikes6" index="2"]
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikes7" parent="SpikeRow" instance=ExtResource("5_34i06")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, -4.5, 0, 0)
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikeArea" parent="SpikeRow/spikes7" index="2"]
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikes8" parent="SpikeRow" instance=ExtResource("5_34i06")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, -3, 0, 0)
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikeArea" parent="SpikeRow/spikes8" index="2"]
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikes9" parent="SpikeRow" instance=ExtResource("5_34i06")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, -6, 0, 0)
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikeArea" parent="SpikeRow/spikes9" index="2"]
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikes10" parent="SpikeRow" instance=ExtResource("5_34i06")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 9, 0, 0)
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikeArea" parent="SpikeRow/spikes10" index="2"]
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikes11" parent="SpikeRow" instance=ExtResource("5_34i06")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 10.5, 0, 0)
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikeArea" parent="SpikeRow/spikes11" index="2"]
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikes12" parent="SpikeRow" instance=ExtResource("5_34i06")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 7.5, 0, 0)
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikeArea" parent="SpikeRow/spikes12" index="2"]
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikes13" parent="SpikeRow" instance=ExtResource("5_34i06")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, -9, 0, 0)
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikeArea" parent="SpikeRow/spikes13" index="2"]
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikes14" parent="SpikeRow" instance=ExtResource("5_34i06")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, -7.5, 0, 0)
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikeArea" parent="SpikeRow/spikes14" index="2"]
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikes15" parent="SpikeRow" instance=ExtResource("5_34i06")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, -10.5, 0, 0)
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikeArea" parent="SpikeRow/spikes15" index="2"]
+collision_layer = 8
+collision_mask = 16
+
+[node name="SpikeRow2" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -13)
+
+[node name="spikes" parent="SpikeRow2" instance=ExtResource("5_34i06")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikeArea" parent="SpikeRow2/spikes" index="2"]
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikes2" parent="SpikeRow2" instance=ExtResource("5_34i06")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 1.5, 0, 0)
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikeArea" parent="SpikeRow2/spikes2" index="2"]
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikes3" parent="SpikeRow2" instance=ExtResource("5_34i06")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, -1.5, 0, 0)
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikeArea" parent="SpikeRow2/spikes3" index="2"]
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikes4" parent="SpikeRow2" instance=ExtResource("5_34i06")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 4.5, 0, 0)
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikeArea" parent="SpikeRow2/spikes4" index="2"]
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikes5" parent="SpikeRow2" instance=ExtResource("5_34i06")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 6, 0, 0)
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikeArea" parent="SpikeRow2/spikes5" index="2"]
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikes6" parent="SpikeRow2" instance=ExtResource("5_34i06")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 3, 0, 0)
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikeArea" parent="SpikeRow2/spikes6" index="2"]
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikes7" parent="SpikeRow2" instance=ExtResource("5_34i06")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, -4.5, 0, 0)
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikeArea" parent="SpikeRow2/spikes7" index="2"]
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikes8" parent="SpikeRow2" instance=ExtResource("5_34i06")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, -3, 0, 0)
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikeArea" parent="SpikeRow2/spikes8" index="2"]
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikes9" parent="SpikeRow2" instance=ExtResource("5_34i06")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, -6, 0, 0)
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikeArea" parent="SpikeRow2/spikes9" index="2"]
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikes10" parent="SpikeRow2" instance=ExtResource("5_34i06")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 9, 0, 0)
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikeArea" parent="SpikeRow2/spikes10" index="2"]
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikes11" parent="SpikeRow2" instance=ExtResource("5_34i06")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 10.5, 0, 0)
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikeArea" parent="SpikeRow2/spikes11" index="2"]
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikes12" parent="SpikeRow2" instance=ExtResource("5_34i06")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 7.5, 0, 0)
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikeArea" parent="SpikeRow2/spikes12" index="2"]
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikes13" parent="SpikeRow2" instance=ExtResource("5_34i06")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, -9, 0, 0)
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikeArea" parent="SpikeRow2/spikes13" index="2"]
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikes14" parent="SpikeRow2" instance=ExtResource("5_34i06")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, -7.5, 0, 0)
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikeArea" parent="SpikeRow2/spikes14" index="2"]
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikes15" parent="SpikeRow2" instance=ExtResource("5_34i06")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, -10.5, 0, 0)
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikeArea" parent="SpikeRow2/spikes15" index="2"]
+collision_layer = 8
+collision_mask = 16
+
+[node name="SpikeRow3" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -21)
+
+[node name="spikes" parent="SpikeRow3" instance=ExtResource("5_34i06")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikeArea" parent="SpikeRow3/spikes" index="2"]
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikes2" parent="SpikeRow3" instance=ExtResource("5_34i06")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 1.5, 0, 0)
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikeArea" parent="SpikeRow3/spikes2" index="2"]
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikes3" parent="SpikeRow3" instance=ExtResource("5_34i06")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, -1.5, 0, 0)
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikeArea" parent="SpikeRow3/spikes3" index="2"]
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikes4" parent="SpikeRow3" instance=ExtResource("5_34i06")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 4.5, 0, 0)
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikeArea" parent="SpikeRow3/spikes4" index="2"]
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikes5" parent="SpikeRow3" instance=ExtResource("5_34i06")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 6, 0, 0)
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikeArea" parent="SpikeRow3/spikes5" index="2"]
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikes6" parent="SpikeRow3" instance=ExtResource("5_34i06")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 3, 0, 0)
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikeArea" parent="SpikeRow3/spikes6" index="2"]
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikes7" parent="SpikeRow3" instance=ExtResource("5_34i06")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, -4.5, 0, 0)
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikeArea" parent="SpikeRow3/spikes7" index="2"]
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikes8" parent="SpikeRow3" instance=ExtResource("5_34i06")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, -3, 0, 0)
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikeArea" parent="SpikeRow3/spikes8" index="2"]
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikes9" parent="SpikeRow3" instance=ExtResource("5_34i06")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, -6, 0, 0)
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikeArea" parent="SpikeRow3/spikes9" index="2"]
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikes10" parent="SpikeRow3" instance=ExtResource("5_34i06")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 9, 0, 0)
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikeArea" parent="SpikeRow3/spikes10" index="2"]
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikes11" parent="SpikeRow3" instance=ExtResource("5_34i06")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 10.5, 0, 0)
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikeArea" parent="SpikeRow3/spikes11" index="2"]
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikes12" parent="SpikeRow3" instance=ExtResource("5_34i06")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 7.5, 0, 0)
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikeArea" parent="SpikeRow3/spikes12" index="2"]
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikes13" parent="SpikeRow3" instance=ExtResource("5_34i06")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, -9, 0, 0)
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikeArea" parent="SpikeRow3/spikes13" index="2"]
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikes14" parent="SpikeRow3" instance=ExtResource("5_34i06")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, -7.5, 0, 0)
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikeArea" parent="SpikeRow3/spikes14" index="2"]
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikes15" parent="SpikeRow3" instance=ExtResource("5_34i06")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, -10.5, 0, 0)
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikeArea" parent="SpikeRow3/spikes15" index="2"]
+collision_layer = 8
+collision_mask = 16
+
+[node name="SpikeRow4" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -28)
+
+[node name="spikes" parent="SpikeRow4" instance=ExtResource("5_34i06")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikeArea" parent="SpikeRow4/spikes" index="2"]
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikes2" parent="SpikeRow4" instance=ExtResource("5_34i06")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 1.5, 0, 0)
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikeArea" parent="SpikeRow4/spikes2" index="2"]
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikes3" parent="SpikeRow4" instance=ExtResource("5_34i06")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, -1.5, 0, 0)
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikeArea" parent="SpikeRow4/spikes3" index="2"]
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikes4" parent="SpikeRow4" instance=ExtResource("5_34i06")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 4.5, 0, 0)
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikeArea" parent="SpikeRow4/spikes4" index="2"]
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikes5" parent="SpikeRow4" instance=ExtResource("5_34i06")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 6, 0, 0)
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikeArea" parent="SpikeRow4/spikes5" index="2"]
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikes6" parent="SpikeRow4" instance=ExtResource("5_34i06")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 3, 0, 0)
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikeArea" parent="SpikeRow4/spikes6" index="2"]
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikes7" parent="SpikeRow4" instance=ExtResource("5_34i06")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, -4.5, 0, 0)
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikeArea" parent="SpikeRow4/spikes7" index="2"]
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikes8" parent="SpikeRow4" instance=ExtResource("5_34i06")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, -3, 0, 0)
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikeArea" parent="SpikeRow4/spikes8" index="2"]
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikes9" parent="SpikeRow4" instance=ExtResource("5_34i06")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, -6, 0, 0)
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikeArea" parent="SpikeRow4/spikes9" index="2"]
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikes10" parent="SpikeRow4" instance=ExtResource("5_34i06")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 9, 0, 0)
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikeArea" parent="SpikeRow4/spikes10" index="2"]
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikes11" parent="SpikeRow4" instance=ExtResource("5_34i06")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 10.5, 0, 0)
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikeArea" parent="SpikeRow4/spikes11" index="2"]
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikes12" parent="SpikeRow4" instance=ExtResource("5_34i06")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 7.5, 0, 0)
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikeArea" parent="SpikeRow4/spikes12" index="2"]
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikes13" parent="SpikeRow4" instance=ExtResource("5_34i06")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, -9, 0, 0)
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikeArea" parent="SpikeRow4/spikes13" index="2"]
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikes14" parent="SpikeRow4" instance=ExtResource("5_34i06")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, -7.5, 0, 0)
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikeArea" parent="SpikeRow4/spikes14" index="2"]
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikes15" parent="SpikeRow4" instance=ExtResource("5_34i06")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, -10.5, 0, 0)
+collision_layer = 8
+collision_mask = 16
+
+[node name="spikeArea" parent="SpikeRow4/spikes15" index="2"]
+collision_layer = 8
+collision_mask = 16
+
+[node name="health" parent="." instance=ExtResource("6_v0pi1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1, -9)
+
+[node name="health2" parent="." instance=ExtResource("6_v0pi1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1, -16.6562)
+
+[node name="health3" parent="." instance=ExtResource("6_v0pi1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1, -24)
+
+[node name="health4" parent="." instance=ExtResource("6_v0pi1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1, -31.6562)
+
+[connection signal="body_entered" from="cheese/cheeseArea3D" to="." method="_on_cheese_area_3d_body_entered"]
+[connection signal="body_entered" from="catEntryArea" to="." method="_on_cat_entry_area_body_entered"]
+[connection signal="body_exited" from="catEntryArea" to="." method="_on_cat_entry_area_body_exited"]
+[connection signal="body_entered" from="SpikeRow/spikes/spikeArea" to="." method="_on_spike_area_body_entered"]
+[connection signal="body_entered" from="SpikeRow/spikes2/spikeArea" to="." method="_on_spike_area_body_entered"]
+[connection signal="body_entered" from="SpikeRow/spikes3/spikeArea" to="." method="_on_spike_area_body_entered"]
+[connection signal="body_entered" from="SpikeRow/spikes4/spikeArea" to="." method="_on_spike_area_body_entered"]
+[connection signal="body_entered" from="SpikeRow/spikes5/spikeArea" to="." method="_on_spike_area_body_entered"]
+[connection signal="body_entered" from="SpikeRow/spikes6/spikeArea" to="." method="_on_spike_area_body_entered"]
+[connection signal="body_entered" from="SpikeRow/spikes7/spikeArea" to="." method="_on_spike_area_body_entered"]
+[connection signal="body_entered" from="SpikeRow/spikes8/spikeArea" to="." method="_on_spike_area_body_entered"]
+[connection signal="body_entered" from="SpikeRow/spikes9/spikeArea" to="." method="_on_spike_area_body_entered"]
+[connection signal="body_entered" from="SpikeRow/spikes10/spikeArea" to="." method="_on_spike_area_body_entered"]
+[connection signal="body_entered" from="SpikeRow/spikes11/spikeArea" to="." method="_on_spike_area_body_entered"]
+[connection signal="body_entered" from="SpikeRow/spikes12/spikeArea" to="." method="_on_spike_area_body_entered"]
+[connection signal="body_entered" from="SpikeRow/spikes13/spikeArea" to="." method="_on_spike_area_body_entered"]
+[connection signal="body_entered" from="SpikeRow/spikes14/spikeArea" to="." method="_on_spike_area_body_entered"]
+[connection signal="body_entered" from="SpikeRow/spikes15/spikeArea" to="." method="_on_spike_area_body_entered"]
+[connection signal="body_entered" from="SpikeRow2/spikes/spikeArea" to="." method="_on_spike_area_body_entered"]
+[connection signal="body_entered" from="SpikeRow2/spikes2/spikeArea" to="." method="_on_spike_area_body_entered"]
+[connection signal="body_entered" from="SpikeRow2/spikes3/spikeArea" to="." method="_on_spike_area_body_entered"]
+[connection signal="body_entered" from="SpikeRow2/spikes4/spikeArea" to="." method="_on_spike_area_body_entered"]
+[connection signal="body_entered" from="SpikeRow2/spikes5/spikeArea" to="." method="_on_spike_area_body_entered"]
+[connection signal="body_entered" from="SpikeRow2/spikes6/spikeArea" to="." method="_on_spike_area_body_entered"]
+[connection signal="body_entered" from="SpikeRow2/spikes7/spikeArea" to="." method="_on_spike_area_body_entered"]
+[connection signal="body_entered" from="SpikeRow2/spikes8/spikeArea" to="." method="_on_spike_area_body_entered"]
+[connection signal="body_entered" from="SpikeRow2/spikes9/spikeArea" to="." method="_on_spike_area_body_entered"]
+[connection signal="body_entered" from="SpikeRow2/spikes10/spikeArea" to="." method="_on_spike_area_body_entered"]
+[connection signal="body_entered" from="SpikeRow2/spikes11/spikeArea" to="." method="_on_spike_area_body_entered"]
+[connection signal="body_entered" from="SpikeRow2/spikes12/spikeArea" to="." method="_on_spike_area_body_entered"]
+[connection signal="body_entered" from="SpikeRow2/spikes13/spikeArea" to="." method="_on_spike_area_body_entered"]
+[connection signal="body_entered" from="SpikeRow2/spikes14/spikeArea" to="." method="_on_spike_area_body_entered"]
+[connection signal="body_entered" from="SpikeRow2/spikes15/spikeArea" to="." method="_on_spike_area_body_entered"]
+[connection signal="body_entered" from="SpikeRow3/spikes/spikeArea" to="." method="_on_spike_area_body_entered"]
+[connection signal="body_entered" from="SpikeRow3/spikes2/spikeArea" to="." method="_on_spike_area_body_entered"]
+[connection signal="body_entered" from="SpikeRow3/spikes3/spikeArea" to="." method="_on_spike_area_body_entered"]
+[connection signal="body_entered" from="SpikeRow3/spikes4/spikeArea" to="." method="_on_spike_area_body_entered"]
+[connection signal="body_entered" from="SpikeRow3/spikes5/spikeArea" to="." method="_on_spike_area_body_entered"]
+[connection signal="body_entered" from="SpikeRow3/spikes6/spikeArea" to="." method="_on_spike_area_body_entered"]
+[connection signal="body_entered" from="SpikeRow3/spikes7/spikeArea" to="." method="_on_spike_area_body_entered"]
+[connection signal="body_entered" from="SpikeRow3/spikes8/spikeArea" to="." method="_on_spike_area_body_entered"]
+[connection signal="body_entered" from="SpikeRow3/spikes9/spikeArea" to="." method="_on_spike_area_body_entered"]
+[connection signal="body_entered" from="SpikeRow3/spikes10/spikeArea" to="." method="_on_spike_area_body_entered"]
+[connection signal="body_entered" from="SpikeRow3/spikes11/spikeArea" to="." method="_on_spike_area_body_entered"]
+[connection signal="body_entered" from="SpikeRow3/spikes12/spikeArea" to="." method="_on_spike_area_body_entered"]
+[connection signal="body_entered" from="SpikeRow3/spikes13/spikeArea" to="." method="_on_spike_area_body_entered"]
+[connection signal="body_entered" from="SpikeRow3/spikes14/spikeArea" to="." method="_on_spike_area_body_entered"]
+[connection signal="body_entered" from="SpikeRow3/spikes15/spikeArea" to="." method="_on_spike_area_body_entered"]
+[connection signal="body_entered" from="SpikeRow4/spikes/spikeArea" to="." method="_on_spike_area_body_entered"]
+[connection signal="body_entered" from="SpikeRow4/spikes2/spikeArea" to="." method="_on_spike_area_body_entered"]
+[connection signal="body_entered" from="SpikeRow4/spikes3/spikeArea" to="." method="_on_spike_area_body_entered"]
+[connection signal="body_entered" from="SpikeRow4/spikes4/spikeArea" to="." method="_on_spike_area_body_entered"]
+[connection signal="body_entered" from="SpikeRow4/spikes5/spikeArea" to="." method="_on_spike_area_body_entered"]
+[connection signal="body_entered" from="SpikeRow4/spikes6/spikeArea" to="." method="_on_spike_area_body_entered"]
+[connection signal="body_entered" from="SpikeRow4/spikes7/spikeArea" to="." method="_on_spike_area_body_entered"]
+[connection signal="body_entered" from="SpikeRow4/spikes8/spikeArea" to="." method="_on_spike_area_body_entered"]
+[connection signal="body_entered" from="SpikeRow4/spikes9/spikeArea" to="." method="_on_spike_area_body_entered"]
+[connection signal="body_entered" from="SpikeRow4/spikes10/spikeArea" to="." method="_on_spike_area_body_entered"]
+[connection signal="body_entered" from="SpikeRow4/spikes11/spikeArea" to="." method="_on_spike_area_body_entered"]
+[connection signal="body_entered" from="SpikeRow4/spikes12/spikeArea" to="." method="_on_spike_area_body_entered"]
+[connection signal="body_entered" from="SpikeRow4/spikes13/spikeArea" to="." method="_on_spike_area_body_entered"]
+[connection signal="body_entered" from="SpikeRow4/spikes14/spikeArea" to="." method="_on_spike_area_body_entered"]
+[connection signal="body_entered" from="SpikeRow4/spikes15/spikeArea" to="." method="_on_spike_area_body_entered"]
+[connection signal="body_entered" from="health/healthArea3D" to="." method="_on_health_area_3d_body_entered"]
+[connection signal="body_entered" from="health2/healthArea3D" to="." method="_on_health_area_3d_body_entered"]
+[connection signal="body_entered" from="health3/healthArea3D" to="." method="_on_health_area_3d_body_entered"]
+[connection signal="body_entered" from="health4/healthArea3D" to="." method="_on_health_area_3d_body_entered"]
+
+[editable path="cheese"]
+[editable path="SpikeRow/spikes"]
+[editable path="SpikeRow/spikes2"]
+[editable path="SpikeRow/spikes3"]
+[editable path="SpikeRow/spikes4"]
+[editable path="SpikeRow/spikes5"]
+[editable path="SpikeRow/spikes6"]
+[editable path="SpikeRow/spikes7"]
+[editable path="SpikeRow/spikes8"]
+[editable path="SpikeRow/spikes9"]
+[editable path="SpikeRow/spikes10"]
+[editable path="SpikeRow/spikes11"]
+[editable path="SpikeRow/spikes12"]
+[editable path="SpikeRow/spikes13"]
+[editable path="SpikeRow/spikes14"]
+[editable path="SpikeRow/spikes15"]
+[editable path="SpikeRow2/spikes"]
+[editable path="SpikeRow2/spikes2"]
+[editable path="SpikeRow2/spikes3"]
+[editable path="SpikeRow2/spikes4"]
+[editable path="SpikeRow2/spikes5"]
+[editable path="SpikeRow2/spikes6"]
+[editable path="SpikeRow2/spikes7"]
+[editable path="SpikeRow2/spikes8"]
+[editable path="SpikeRow2/spikes9"]
+[editable path="SpikeRow2/spikes10"]
+[editable path="SpikeRow2/spikes11"]
+[editable path="SpikeRow2/spikes12"]
+[editable path="SpikeRow2/spikes13"]
+[editable path="SpikeRow2/spikes14"]
+[editable path="SpikeRow2/spikes15"]
+[editable path="SpikeRow3/spikes"]
+[editable path="SpikeRow3/spikes2"]
+[editable path="SpikeRow3/spikes3"]
+[editable path="SpikeRow3/spikes4"]
+[editable path="SpikeRow3/spikes5"]
+[editable path="SpikeRow3/spikes6"]
+[editable path="SpikeRow3/spikes7"]
+[editable path="SpikeRow3/spikes8"]
+[editable path="SpikeRow3/spikes9"]
+[editable path="SpikeRow3/spikes10"]
+[editable path="SpikeRow3/spikes11"]
+[editable path="SpikeRow3/spikes12"]
+[editable path="SpikeRow3/spikes13"]
+[editable path="SpikeRow3/spikes14"]
+[editable path="SpikeRow3/spikes15"]
+[editable path="SpikeRow4/spikes"]
+[editable path="SpikeRow4/spikes2"]
+[editable path="SpikeRow4/spikes3"]
+[editable path="SpikeRow4/spikes4"]
+[editable path="SpikeRow4/spikes5"]
+[editable path="SpikeRow4/spikes6"]
+[editable path="SpikeRow4/spikes7"]
+[editable path="SpikeRow4/spikes8"]
+[editable path="SpikeRow4/spikes9"]
+[editable path="SpikeRow4/spikes10"]
+[editable path="SpikeRow4/spikes11"]
+[editable path="SpikeRow4/spikes12"]
+[editable path="SpikeRow4/spikes13"]
+[editable path="SpikeRow4/spikes14"]
+[editable path="SpikeRow4/spikes15"]
+[editable path="health"]
+[editable path="health2"]
+[editable path="health3"]
+[editable path="health4"]

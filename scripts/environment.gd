@@ -30,8 +30,9 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	$Control/lifeLabel.text = str(life)
-	$Control/scoreLabel.text = str(score)
+	$Control/lifeLabel.text = ("Life:" + str(life))
+	$Control/scoreLabel.text = ("Score:" + str(score))
+	$Control/fpsCount.text = str(Engine.get_frames_per_second())
 	
 	if Input.is_action_just_pressed("quit"):
 		get_tree().quit()
