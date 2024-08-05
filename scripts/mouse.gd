@@ -11,6 +11,9 @@ func _ready():
 func _input(event):
 	if event is InputEventMouseMotion:
 		rotate_y(deg_to_rad((-event.relative.x * DEFAULT_SENSITIVITY)))
+		
+		$Pivot.rotate_z(-deg_to_rad(event.relative.y * DEFAULT_SENSITIVITY * .5))
+		$Pivot.rotation.z = clamp($Pivot.rotation.z, deg_to_rad(-45), deg_to_rad(45))
 
 func _physics_process(delta):
 	_climbing(3)

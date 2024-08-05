@@ -12,13 +12,14 @@ extends CharacterBody3D
 
 func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	#set_floor_max_angle(deg_to_rad(15))
 
 func _input(event):
 	if event is InputEventMouseMotion:
 		rotate_y(deg_to_rad((-event.relative.x * DEFAULT_SENSITIVITY)))
 		
-		$Pivot.rotate_x(deg_to_rad(event.relative.y * DEFAULT_SENSITIVITY))
-		$Pivot.rotation.x = clamp($Pivot.rotation.x, deg_to_rad(-90), deg_to_rad(45))
+		$Pivot.rotate_x(deg_to_rad(event.relative.y * DEFAULT_SENSITIVITY * .5))
+		$Pivot.rotation.z = clamp($Pivot.rotation.z, deg_to_rad(-45), deg_to_rad(45))
 
 func _physics_process(delta):
 	_climbing(6)
